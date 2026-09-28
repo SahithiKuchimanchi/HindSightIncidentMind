@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: .
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
+    environment:
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GROQ_MODEL: ${GROQ_MODEL:-qwen/qwen3-32b}
+      HINDSIGHT_API_URL: ${HINDSIGHT_API_URL:-https://api.hindsight.vectorize.io}
+      HINDSIGHT_API_KEY: ${HINDSIGHT_API_KEY}
+      HINDSIGHT_BANK_ID: ${HINDSIGHT_BANK_ID:-incident-response-agent}
+      HINDSIGHT_USE_REFLECT: ${HINDSIGHT_USE_REFLECT:-true}
+      HINDSIGHT_TIMEOUT_SECONDS: ${HINDSIGHT_TIMEOUT_SECONDS:-15}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8501}
+    ports:
+      - "8000:8000"
+  frontend:
+    build: .
+    command: streamlit run frontend/app.py --server.address 0.0.0.0 --server.port 8501
+    environment:
+      BACKEND_URL: http://backend:8000
+      BACKEND_TIMEOUT_SECONDS: ${BACKEND_TIMEOUT_SECONDS:-45}
+    depends_on:
+      - backend
+    ports:
+      - "8501:8501"
