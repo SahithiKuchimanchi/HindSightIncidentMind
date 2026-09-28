@@ -22,7 +22,7 @@ Browser → Streamlit UI → FastAPI → IncidentAgent → Hindsight + Groq
 Set these on the **backend**:
 ```text
 GROQ_API_KEY
-GROQ_MODEL=qwen/qwen3-32b
+GROQ_MODEL=ur_api_key
 HINDSIGHT_API_URL=https://api.hindsight.vectorize.io
 HINDSIGHT_API_KEY
 HINDSIGHT_BANK_ID=incident-response-agent
